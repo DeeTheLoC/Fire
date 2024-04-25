@@ -1,0 +1,157 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head id="Head"><title>
+	 Login
+</title><link rel="stylesheet" href="css/login.css">
+   
+    <script src="js/JQuery.js" type="text/javascript"></script>
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/alert.js" type="text/javascript"></script>
+
+    <style type="text/css">
+      	.btnLine1{border-left:1px solid #0a4465;*border-left:none;border-top:none;*border-top:1px solid #0a4465;border-right:1px solid #93d3f6;border-bottom:none;*border-bottom:1px solid #0a4465;width:200px;*width:2px;height:1px !important;*height:1px;line-height:auto;padding:0;margin:0 2px 0 7px;*margin:0 7px 0 7px;background:#ded9d9;}
+        input[type=button] {
+            -webkit-appearance: none;
+            outline: none;
+        }
+
+        input[type=submit] {
+            -webkit-appearance: none;
+            outline: none;
+        }
+
+        input[type=input] {
+            -webkit-appearance: none;
+            outline: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function redirect() {
+            window.top.location = "/default.aspx";
+        }
+
+        var tipMsg;
+        var tipMethod;
+        function showMsg(msgId, method, txt) {
+            var msg, msgTemplate;
+            msg = {
+                errorUserName: "The user account you entered is incorrect. Please re-enter it.",
+                emptyUserName: "Please fill in your user account number.",
+                emptyPassword: "Please fill in the login password.",
+                emptyVerifyCode: "Please fill in the verification code.",
+                errorPassowrdTooLong: "Logon password cannot exceed 100 characters.",
+                errorNamePassowrd: "The account or password you filled in is incorrect, Please try again.",
+                errorVerifyCode: "The validation code you filled in is incorrect.",
+                errorUserRole: "Your user account does not have administrator status and cannot log in.",
+                errorLogonTimeout: "Your user account logon timeout, please re-login.",
+                frequent: "You logged in too frequently. To ensure security, please enter a validation code.",
+                errorBlockIPErr: "Your IP has been temporarily blocked and cannot be logged in. Please try again later.",
+                errorBindIP: "Your administrative account has been bound to the specified IP address to log in.",
+                errorNullity: "Your account has been banned. Please contact the administrator for details.",
+                errorAuthParam: "Unexpected permission parameter. Please login again.",
+                errorUnknown: "Server unknown error. Please login again.",
+                overtime: "Session timeout. Please login again. ",
+                errUser: "You are logged out because another account has logged in."
+            };
+            tipMethod = method;
+            if (msgId != undefined && msgId != "") {
+                if (!txt) {
+                    txt = msg[msgId];
+                    tipMsg = txt;
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        window.onload = function () {
+            if (tipMsg != null) {
+                var leftFrm =  window.parent.document.getElementById("frm_left_frm");
+                if (leftFrm) {
+                    leftFrm.style.visibility = "hidden";
+                }
+                if (tipMethod != null && tipMethod != "") {
+                    
+                    tipMsg += "[state = " + tipMethod + "]";
+                }
+                myAlert('Message', tipMsg, function(){ redirect(); });        
+            }
+        }
+
+        function CheckInput() {
+            var accounts = $("#txtLoginName").val();
+            var pass = $("#txtLoginPass").val();
+            var verifyCode = $("#txtVerifyCode").val();
+
+            if (accounts == "") {
+                showMsg("emptyUserName");
+                $("#txtLoginName").focus();
+                return false;
+            }
+            if (pass == "") {
+                showMsg("emptyPassword");
+                $("#txtLoginPass").focus();
+                return false;
+            }
+            if (pass.length >= 100) {
+                showMsg("errorPassowrdTooLong");
+                $("#txtLoginPass").focus();
+                return false;
+            }
+            if (verifyCode == "") {
+                showMsg("emptyVerifyCode");
+                $("#txtVerifyCode").focus();
+                return false;
+            }
+        }
+        $(document).ready(function() {
+            $("#txtLoginName").focus();
+        });
+
+        function ChangeCodeimg() {
+            Images = document.getElementById("ImageCheck");
+            Images.src = "Tools/VerifyImagePage.aspx?" + Math.random();
+        }
+    </script>
+</head>
+
+
+<body>
+    
+    <div style="transform:translateX(100)">  
+    </div>
+    <div id="content">             
+    <div class="login-header">
+        <img src="images/lg.png">
+        <img id="titleimg" src="images/title.png" style="display:none; width:270px; transform:translate(80px,-190px)">  
+    </div>
+    <form name="ctl00" method="post" action="" id="ctl00">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTkxNzI0NzI1NQ8WAh4TVmFsaWRhdGVSZXF1ZXN0TW9kZQIBFgICAw9kFgICBA8PFgIeBFRleHQFD1ZlcnNpb246Mi4wLjIwOWRkZPiIVL1JXOhOPBThGtIdk1D6x1MtqPJnjyxudqJ8avYc">
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334">
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAXRLcx9quxzZETCOYPhaRkNbSRY/Sd1Soe3bMMt3XikKfOLUAKj8R+iM7xbNxCXE48eezVhT34+KOLGRxXpAnZeop4oRunf14dz2Zt2+QKDEF7VA3PghbmVQ4LKAvZOI20COyAuF/qc0QRPkies8sH+">
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input name="txtLoginName" type="text" id="txtLoginName" placeholder="Enter your username">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-password"></span>
+            <input name="txtLoginPass" type="password" id="txtLoginPass" placeholder="Enter your password">
+        </div>
+        <div class="login-input-box-code">
+               <span class="icon icon-aq"></span>
+               <input name="txtVerifyCode" type="text" id="txtVerifyCode" placeholder="Code">
+               <img src="VerifyImagePage.aspx" id="ImageCheck" style="cursor: pointer" title="Click to change!" onclick="ChangeCodeimg();"> 
+        </div>
+        <div>                          
+            <input type="submit" name="btnLogin" value="Log in" onclick="return CheckInput();" id="btnLogin" class="login-button-box">
+            <span id="Version" style="display:inline-block;font-size: 15px;font-family: sans-serif;margin-left:320px;margin-top:30px">Version:2.0.209</span>
+        </div>
+    </form>
+   
+</div>
+
+
+</body></html>
